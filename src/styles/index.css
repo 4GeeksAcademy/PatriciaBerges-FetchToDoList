@@ -1,12 +1,65 @@
+body{
+    background-color: whitesmoke;
+    font-family:'Times New Roman', Times, serif
+}
 
-/* 
+.toDoList{
+    width: 500px;
+    border: solid 1px lightgray;
+    margin: auto;
+    margin-top: 20px;
+    justify-content: center;
+    box-shadow: 5px 5px 5px lightgray;
+    background-color: white;
+}
+.task {
+    width: 100%;
+    padding-left: 30px;
+    font-size: 25px;
+    border-right: none;
+    border-left: none;
+    color:grey;
+    border-top: none;
+}
 
-    You can write your own styles here...
-    
-    
-    ...Or you can use the import command to include 
-    other sylesheets into your bunde as well, e.j:
-    
-    import 'relative/path/to/stylesheet.scss';
+.tasksLeft{
+    color: rgb(180, 180, 180);
+    margin: 0;
+    font-size: small;
+    padding: 10px 0 10px 5px;
+    border-radius: none
+}
 
-*/
+button{
+    color: white;
+    background-color: white;
+    border-top: none;
+    border-bottom: 1px solid lightgray;
+    border-left: none;
+    border-right: none;
+    font-size: 25px;
+    padding-right: 10px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+input:focus{
+    outline: none;
+}
+
+input::placeholder{
+    color: lightgray
+}
+
+.parent:hover button{
+    color: rgb(155, 48, 48)
+}
+
+h1{
+    width: 500px;
+    margin: auto;
+    text-align: center;
+    margin-top: 75px;
+    font-size: 80px;
+    color: rgb(198, 168, 202);
+    
+}
