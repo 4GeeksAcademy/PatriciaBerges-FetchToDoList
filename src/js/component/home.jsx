@@ -3,9 +3,14 @@ import React, { useEffect, useState } from "react";
 
 
 const Home = () => {
+	let user = "patry"
 
 	const [taskList, setTaskList] = useState(["Wash the dishes", "Clean the house"])
 	const [inputValue, setInputValue] = useState("")
+
+	useEffect(() => {fetch(`https://playground.4geeks.com/todo/users/${user}`)
+	.then(response => response.json())
+	.then(data => {setTaskList(data.todos)})}, [])
 
 
 	const inputChange = (e) => {
@@ -14,7 +19,18 @@ const Home = () => {
 
 	const handleKeyPress = (e) => {
 		if(e.key === "Enter"){
-			inputValue.length > 0 && setTaskList([...taskList, inputValue])
+			inputValue.length > 0 && fetch(`https://playground.4geeks.com/todo/users/${user}`, {
+				method: "POST",
+				body: JSON.stringify({
+					"label": {inputValue},
+					"is_done": false
+				  }),
+				headers: {
+					"Content-type": "application/json"
+				}
+			})
+			.then(resp => resp.json())
+			//setTaskList([...taskList, inputValue])
 			setInputValue("")
 		}
 	}
@@ -39,8 +55,8 @@ const Home = () => {
 					{(taskList.length > 0) && taskList.map((task, index) => 
 					(
 						<div className="d-flex parent">
-							<li className="list-group-item task" key={index}>{task}</li>
-							<button className={task} onClick={deleteTask}>x</button>
+							<li className="list-group-item task" key={index}>{task.label}</li>
+							<button className={task.label} onClick={deleteTask}>x</button>
 						</div>
 					)
 					)}
