@@ -87,7 +87,7 @@ const Home = () => {
 					<input className="list-group-item task" type="text" value={inputValue} onChange={inputChange} onKeyDown={handleKeyPress} placeholder="What needs to be done?"/>
 					{(taskList.length > 0) && taskList.map((task, index) => 
 					(
-						<div className="d-flex parent">
+						<div className="d-flex parent" key={index+"div"}>
 							<li className="list-group-item task" key={index}>{task.label}</li>
 							<button className={taskDone(task)} onClick={() => handleDoneButton(task)} >✓</button>
 							<button className="delete" onClick={() => deleteTask(task)}>x</button>
