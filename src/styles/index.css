@@ -31,7 +31,6 @@ body{
 }
 
 button{
-    color: white;
     background-color: white;
     border-top: none;
     border-bottom: 1px solid lightgray;
@@ -50,7 +49,11 @@ input::placeholder{
     color: lightgray
 }
 
-.parent:hover button{
+.delete{
+    color: white
+}
+
+.parent:hover .delete{
     color: rgb(155, 48, 48)
 }
 
@@ -62,4 +65,13 @@ h1{
     font-size: 80px;
     color: rgb(198, 168, 202);
     
+}
+
+.done{
+    color: grey
+}
+
+.isDone{
+    color: green !important;
+    text-shadow: 0 0 10px green;
 }

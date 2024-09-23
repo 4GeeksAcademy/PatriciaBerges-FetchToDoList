@@ -38,10 +38,8 @@ const Home = () => {
 		}
 	}
 
-	const deleteTask = (e) => {
-		const newList = taskList.filter((task) => task.label === e.target.className)
-		let taskToDelete = newList[0]
-		fetch(`https://playground.4geeks.com/todo/todos/${taskToDelete.id}`, {
+	const deleteTask = (task) => {
+		fetch(`https://playground.4geeks.com/todo/todos/${task.id}`, {
 			method: "DELETE"
 		})
 		.then(resp => {if(resp.ok){fetch(`https://playground.4geeks.com/todo/users/${user}`)
@@ -55,6 +53,32 @@ const Home = () => {
 		else return (<p className=" tasksLeft">No tasks to do, add new tasks</p>)
 	}
 
+	const taskDone = (task) => {
+		if(task.is_done == true){
+			return "isDone done"
+		}
+		else return "done"
+	}
+
+	const handleDoneButton = (task) => {
+		fetch(`https://playground.4geeks.com/todo/todos/${task.id}`, {
+			method: "PUT",
+			body: JSON.stringify({
+				"label": `${task.label}`,
+				"is_done": `${!task.is_done}`
+			  }),
+			headers: {
+				"Content-type": "application/json"
+			} 
+		})
+		.then(response => {if(!response.ok){throw new Error("Failed to update the task")}
+			return response.json()	 
+		})
+		.then(() => fetch(`https://playground.4geeks.com/todo/users/${user}`)
+		.then(response => response.json())
+		.then(data => {setTaskList(data.todos)}))
+	}
+
 	return (
 		<div>
 			<h1 className="fst-italic">todos</h1>
@@ -65,7 +89,8 @@ const Home = () => {
 					(
 						<div className="d-flex parent">
 							<li className="list-group-item task" key={index}>{task.label}</li>
-							<button className={task.label} onClick={deleteTask}>x</button>
+							<button className={taskDone(task)} onClick={() => handleDoneButton(task)} >✓</button>
+							<button className="delete" onClick={() => deleteTask(task)}>x</button>
 						</div>
 					)
 					)}
