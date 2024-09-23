@@ -19,25 +19,34 @@ const Home = () => {
 
 	const handleKeyPress = (e) => {
 		if(e.key === "Enter"){
-			inputValue.length > 0 && fetch(`https://playground.4geeks.com/todo/users/${user}`, {
+			inputValue.length > 0 && fetch(`https://playground.4geeks.com/todo/todos/${user}`, {
 				method: "POST",
 				body: JSON.stringify({
-					"label": {inputValue},
+					"label": `${inputValue}`,
 					"is_done": false
 				  }),
 				headers: {
 					"Content-type": "application/json"
 				}
 			})
-			.then(resp => resp.json())
-			//setTaskList([...taskList, inputValue])
+			.then(resp => 
+				{if(!resp.ok){throw new Error("Failed to submit the task")}
+				return resp.json()})
+			.then(data => setTaskList([...taskList, data]))
+			.catch(error => console.log("Error:", error))
 			setInputValue("")
 		}
 	}
 
 	const deleteTask = (e) => {
-		const newList = taskList.filter((task) => task !== e.target.className)
-		setTaskList(newList)
+		const newList = taskList.filter((task) => task.label === e.target.className)
+		let taskToDelete = newList[0]
+		fetch(`https://playground.4geeks.com/todo/todos/${taskToDelete.id}`, {
+			method: "DELETE"
+		})
+		.then(resp => {if(resp.ok){fetch(`https://playground.4geeks.com/todo/users/${user}`)
+			.then(response => response.json())
+			.then(data => {setTaskList(data.todos)})}})
 	}
 
 	const tasksLeft = () => {
